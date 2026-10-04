@@ -18,7 +18,11 @@
   .card--web,
   .card--desktop,
   .card--phone {
-    width: min(56vw, 240px);
+    width: min(42vw, 180px);
+  }
+
+  .card__year {
+    display: none;
   }
 }
 

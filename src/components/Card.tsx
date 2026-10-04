@@ -20,10 +20,10 @@ export function Card({ project, onOpen }: { project: Project; onOpen: (id: strin
             <span aria-hidden="true"> · </span>
             {aiLabels[project.ai].label}
             {project.year ? (
-              <>
+              <span className="card__year">
                 <span aria-hidden="true"> · </span>
                 {project.year}
-              </>
+              </span>
             ) : null}
           </span>
         </span>
