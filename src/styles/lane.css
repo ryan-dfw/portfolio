@@ -1,0 +1,107 @@
+.lane {
+  --inset: max(var(--gutter), calc((100vw - var(--measure)) / 2 + var(--gutter)));
+}
+
+.lane__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  margin-bottom: 14px;
+}
+
+.lane__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--track-wider);
+  color: var(--ink-soft);
+}
+
+.lane__count {
+  font-size: var(--text-xs);
+  line-height: 1;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.lane__rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(to right, var(--line), rgba(241, 243, 247, 0));
+}
+
+.lane__nav {
+  display: flex;
+  gap: 6px;
+}
+
+.lane__arrow {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-pill);
+  background: rgba(241, 243, 247, 0.02);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease),
+    background-color var(--dur-2) var(--ease), opacity var(--dur-2) var(--ease);
+}
+
+.lane__arrow:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--glass-rim);
+  background: rgba(241, 243, 247, 0.06);
+}
+
+.lane__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Touch devices swipe; arrows only where there's a precise pointer. */
+@media (hover: none), (pointer: coarse) {
+  .lane__nav {
+    display: none;
+  }
+}
+
+.lane__viewport {
+  --fade: clamp(28px, 6vw, 72px);
+  --fs: 0px;
+  --fe: 0px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fs), #000 calc(100% - var(--fe)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fs), #000 calc(100% - var(--fe)), transparent 100%);
+}
+
+.lane__viewport[data-fade-start] {
+  --fs: var(--fade);
+}
+
+.lane__viewport[data-fade-end] {
+  --fe: var(--fade);
+}
+
+.lane__track {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.6vw, 20px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--inset);
+  padding: 4px var(--inset) 14px;
+}
+
+@media (max-width: 640px) {
+  .lane__track {
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+  }
+}

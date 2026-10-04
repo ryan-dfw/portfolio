@@ -1,0 +1,50 @@
+/* Adapted from elmapt's packages/theme tokens. */
+:root {
+  color-scheme: dark;
+
+  --bg: #07090d;
+
+  --ink: #f1f3f7;
+  --ink-soft: rgba(241, 243, 247, 0.74);
+  --ink-dim: rgba(241, 243, 247, 0.5);
+  --ink-faint: rgba(241, 243, 247, 0.28);
+
+  --accent: 138 176 214;
+
+  --line: rgba(241, 243, 247, 0.12);
+  --line-soft: rgba(241, 243, 247, 0.06);
+
+  --glass: rgba(9, 12, 18, 0.44);
+  --glass-solid: rgba(11, 14, 19, 0.96);
+  --glass-edge: rgba(241, 243, 247, 0.1);
+  --glass-rim: rgba(241, 243, 247, 0.14);
+
+  --gutter: clamp(16px, 4vw, 40px);
+  --measure: 1320px;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-glass:
+    inset 0 1px 0 var(--glass-rim), inset 0 0 0 1px rgba(241, 243, 247, 0.035),
+    0 18px 44px rgba(0, 0, 0, 0.5);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-1: 120ms;
+  --dur-2: 240ms;
+  --dur-3: 420ms;
+
+  --font-display: "Libre Caslon Text", "Iowan Old Style", "Hoefler Text", Georgia, serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --track-wide: 0.14em;
+  --track-wider: 0.26em;
+
+  --text-xs: clamp(10px, 1.5vw, 11px);
+  --text-sm: clamp(12px, 1.8vw, 13px);
+  --text-md: clamp(14px, 2vw, 15px);
+  --text-lg: clamp(17px, 2.4vw, 20px);
+  --text-xl: clamp(22px, 3.4vw, 30px);
+}
