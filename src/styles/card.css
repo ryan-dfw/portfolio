@@ -18,7 +18,7 @@
   .card--web,
   .card--desktop,
   .card--phone {
-    width: min(72vw, 320px);
+    width: min(56vw, 240px);
   }
 }
 
@@ -95,7 +95,7 @@
 @media (max-width: 640px) {
   .shot--card {
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 }
 
