@@ -68,10 +68,123 @@
   max-height: 40svh;
 }
 
+/* real screenshots get more room than placeholders */
+.shot--detail.shot--inset {
+  max-height: min(58svh, 560px);
+}
+
+.shot--detail.shot--inset .shot__frame {
+  width: min(94cqw, 92cqh * 1.6);
+}
+
+.shot--detail.shot--inset .shot__frame--portrait {
+  width: min(94cqw, 92cqh * 0.625);
+}
+
+/* a portrait screenshot gets a taller stage */
+.shot--detail.shot--inset.shot--portrait {
+  aspect-ratio: auto;
+  height: min(64svh, 620px);
+  max-height: none;
+}
+
 .detail__body--phone .shot--detail {
   aspect-ratio: auto;
   height: min(560px, 66svh);
   max-height: none;
+}
+
+/* ─── Gallery ──────────────────────────────────────────── */
+
+.gallery {
+  position: relative;
+}
+
+.gallery__track {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  border-radius: var(--radius-lg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gallery__track {
+    scroll-behavior: smooth;
+  }
+}
+
+.gallery__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.gallery__arrow {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-top: -30px;
+  padding: 0;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-pill);
+  background: rgba(9, 12, 18, 0.72);
+  color: var(--ink);
+  cursor: pointer;
+  transition: opacity var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease);
+}
+
+.gallery__arrow--prev {
+  left: 10px;
+}
+
+.gallery__arrow--next {
+  right: 10px;
+}
+
+.gallery__arrow:hover:not(:disabled) {
+  border-color: var(--glass-rim);
+}
+
+.gallery__arrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gallery__dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding-top: 8px;
+}
+
+.gallery__dot {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.gallery__dot::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  transition: background-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
+}
+
+.gallery__dot[aria-current]::before {
+  background: var(--ink);
+  transform: scale(1.25);
 }
 
 .detail__info {
@@ -308,6 +421,20 @@ a.detail__link--primary:hover {
     max-height: none;
   }
 
+  .shot--detail.shot--inset.shot--portrait {
+    height: min(58svh, 520px);
+  }
+
+  /* landscape-only screenshot on a phone: a landscape stage, not a tall one */
+  .shot--detail.shot--contain {
+    height: auto;
+    aspect-ratio: 16 / 11;
+  }
+
+  .shot--detail.shot--contain .shot__frame {
+    width: min(92cqw, 90cqh * 1.6);
+  }
+
   .detail__body--phone .detail__info {
     padding-top: 0;
     padding-right: 0;
@@ -336,4 +463,71 @@ a.detail__link--primary:hover {
 
 @keyframes sheet-in {
   from { transform: translateY(40px); opacity: 0; }
+}
+
+/* ─── Full-size screenshot ─────────────────────────────── */
+
+.shot__zoom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+  border: 0;
+  background: transparent;
+  cursor: zoom-out;
+}
+
+.lightbox:focus {
+  outline: none;
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+}
+
+.lightbox::backdrop {
+  background: rgba(3, 4, 7, 0.9);
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox__close {
+  position: fixed;
+  top: calc(12px + env(safe-area-inset-top));
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-pill);
+  background: rgba(9, 12, 18, 0.7);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox[open] img {
+    animation: fade-in var(--dur-2) ease-out;
+  }
 }

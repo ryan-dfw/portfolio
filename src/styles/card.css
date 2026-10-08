@@ -82,12 +82,13 @@
   display: grid;
   place-items: center;
   overflow: hidden;
+  container-type: size;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-edge);
+  border: 1px solid hsl(var(--hue) 45% 70% / 0.16);
   box-shadow: var(--shadow-glass);
   background:
-    radial-gradient(120% 90% at 30% 0%, hsl(var(--hue) 40% 22% / 0.55), transparent 70%),
-    hsl(var(--hue) 18% 9%);
+    radial-gradient(120% 90% at 30% 0%, hsl(var(--hue) 45% 26% / 0.6), transparent 70%),
+    hsl(var(--hue) 20% 10%);
 }
 
 .shot--card {
@@ -132,17 +133,30 @@
   inset: 0;
 }
 
-/* contain: landscape shot letterboxed in a portrait stage */
-.shot--contain .shot__frame {
-  width: 88%;
+/* inset: a real screenshot floating on the hued stage */
+.shot--inset .shot__frame {
+  width: min(90cqw, 86cqh * 1.6);
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-sm);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0 0 1px hsl(var(--hue) 50% 70% / 0.14), 0 14px 34px rgba(0, 0, 0, 0.5);
+}
+
+.shot--inset .shot__frame--portrait {
+  width: min(90cqw, 88cqh * 0.625);
+  aspect-ratio: 10 / 16;
+}
+
+/* contain: landscape shot letterboxed in a portrait stage */
+.shot--contain .shot__frame {
+  width: min(88cqw, 86cqh * 1.6);
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 1px hsl(var(--hue) 50% 70% / 0.14), 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
 /* device: portrait phone screen inside the stage */
 .shot--device .shot__frame {
-  height: 88%;
+  width: min(88cqw, 88cqh * 0.4615);
   aspect-ratio: 9 / 19.5;
   border-radius: clamp(14px, 9%, 26px) / clamp(14px, 4.2%, 26px);
   outline: 3px solid rgba(241, 243, 247, 0.09);

@@ -27,7 +27,7 @@ export const aiLabels: Record<AiInvolvement, { label: string; meaning: string }>
 /**
  * Order within a lane = order in this array.
  * To move a project between lanes, change `lane`.
- * To add a screenshot, drop files in /public/shots and set `media`.
+ * To add screenshots, drop files in /public/shots and list them in `media` (first = card image).
  */
 export const projects: Project[] = [
   // ─── PAID ────────────────────────────────────────────────────────────
@@ -35,14 +35,14 @@ export const projects: Project[] = [
     id: "nearvye",
     name: "Nearvye",
     lane: "paid",
-    purpose: "Matches people who are physically at the same event.",
+    purpose: "Dating-type app for guests at the same event.",
     artifact: "iOS app",
     ai: "hand",
     year: "’25",
     skills: ["Swift", "BLE", "Firebase Realtime Database", "Firebase Storage", "Firebase Auth"],
     concepts: ["Proximity validation", "Mutual matching", "Data minimization"],
     note:
-      "Working MVP tested on two physical iPhones; built in about a month. BLE confirms the other person is in the room. If both swipe right, both are told. That's where the app's job ends: there's no chat, by design.",
+      "Users see nearby accounts by BLE broadcast, swiping right on accounts of interest. If interest is mutual, both users are notified. The app is purposefully lightweight and single-purpose: it stores nothing beyond what’s needed for authentication and a profile picture, and provides no messaging or other communication features. MVP built in about a month, tested with two iPhones.",
     links: { github: "private" },
     kind: "phone",
     hue: 280,
@@ -67,8 +67,16 @@ export const projects: Project[] = [
     ],
     concepts: ["Data enrichment", "Denormalization"],
     note:
-      "About 7,500 leads consolidated from buyer spreadsheets and enriched with addresses and contacts by a Python + LLM pipeline. A buyer checks whether a region and quantity exists, purchases, and gets a key to view their leads. Live.",
-    links: {},
+      "Consolidated 7,500+ leads from buyer spreadsheets and enriched them with addresses and product information through a Python + LLM pipeline. Sellers confirm the desired quantity is available in a region, then generate a key that unlocks those exact records for delivery to the client.",
+    links: {
+      github: "private",
+      live: "https://steelwiseconsulting.com",
+    },
+    media: [
+      { landscape: "/shots/steelwise01.webp", portrait: "/shots/steelwise01-tall.webp", alt: "Access-code login for purchased leads" },
+      { landscape: "/shots/steelwise02.webp", portrait: "/shots/steelwise02-tall.webp", alt: "Buyer leads table with sample data" },
+      { landscape: "/shots/steelwise03.webp", portrait: "/shots/steelwise03-tall.webp", alt: "Landing page" },
+    ],
     kind: "web",
     hue: 205,
   },
@@ -76,18 +84,36 @@ export const projects: Project[] = [
     id: "paola-book-sales",
     name: "Paola Book Sales",
     lane: "paid",
-    purpose: "Sells Paola's book.",
-    artifact: "Website",
+    purpose: "Sells Paola's books and manages their fulfillment.",
+    artifact: "Storefront + operations dashboard",
     ai: "vibes",
     year: "’26",
-    skills: ["TypeScript/TSX", "Vite", "Stripe Checkout", "Netlify", "Serverless functions"],
-    concepts: ["Bilingual support"],
+    skills: [
+      "TypeScript/TSX",
+      "Vite",
+      "Stripe Checkout",
+      "Stripe API",
+      "Firebase Auth",
+      "Netlify",
+      "Serverless functions",
+    ],
+    concepts: [
+      "Order-state modeling",
+      "Fulfillment workflows",
+      "Stripe metadata",
+      "Localization",
+    ],
     note:
-      "About $600 in sales on launch day, built in roughly two weeks for an in-person launch. Claude made the visuals, including the 3D book. I set up her Stripe account, checkout and deployment. Stripe holds the products and prices; picking the Spanish edition switches the page and checkout to Spanish.",
+        "Built for an in-person book launch and handled about $600 in sales on launch day. The bilingual storefront takes orders through Stripe; an authenticated dashboard turns those orders into a fulfillment workflow for shipping, pickup, customer follow-up and delivery. Fulfillment state is written back to Stripe metadata, keeping Stripe as the system of record without a separate database. My admin view mocks up fake data, which is what's shown here to prevent showing anyone's personal information.",
     links: {
       github: "https://github.com/ryan-dfw/paola-book-sales",
       live: "https://paolabooksales.netlify.app",
     },
+    media: [
+      { landscape: "/shots/paolabook01.webp", portrait: "/shots/paolabook01-tall.webp", alt: "Storefront with the edition picker" },
+      { landscape: "/shots/paolabook02.webp", portrait: "/shots/paolabook02-tall.webp", alt: "Orders dashboard showing mock data" },
+      { portrait: "/shots/paolabook03-tall.webp", alt: "Order detail with fulfillment actions (mock data)" },
+    ],
     kind: "web",
     hue: 345,
   },
@@ -97,7 +123,8 @@ export const projects: Project[] = [
     id: "airis",
     name: "AIris",
     lane: "software",
-    purpose: "Reconstructs blindly-shot photos through a caption and image generation.",
+    purpose:
+        "Hijacks a screenless camera's image output, replacing its photographs with AI-generated recreations.",
     artifact: "Android app",
     ai: "assisted",
     year: "’24–’26",
@@ -105,13 +132,16 @@ export const projects: Project[] = [
       "Kotlin",
       "Jetpack Compose",
       "Sony Camera Remote API",
-      "Wi-Fi Direct",
-      "Android networking",
+      "Android ConnectivityManager",
       "OpenAI API",
     ],
-    concepts: ["Network routing", "Image → text → image", "Prompt engineering"],
+    concepts: [
+      "Concurrent network interfaces",
+      "Network routing",
+      "Semantic reconstruction",
+    ],
     note:
-      "Drives a Sony QX10 directly over its Wi-Fi while keeping cellular up for API calls. Follows a Python prototype and a hand-written Java app; this Kotlin version keeps that logic, and Claude rebuilt the UI.",
+        "Built around a Sony QX10, which captures photographs using its physical shutter. AIris retrieves each image, generates a text description, and uses that description to create a replacement image. The Android app maintains its camera connection over Wi-Fi while routing AI requests through cellular. Originally implemented in Python and then Java, with the current end-to-end Kotlin version using a Claude-assisted UI.",
     links: {
       github: "https://github.com/ryan-dfw/airis",
       extra: [
@@ -136,30 +166,90 @@ export const projects: Project[] = [
     artifact: "Desktop utility",
     ai: "hand",
     year: "’26",
-    skills: ["Rust"],
-    concepts: ["A/V synchronization", "Metadata-driven behavior"],
+    skills: ["Rust", "MPD", "mpv"],
+    concepts: [
+      "Event-driven programming",
+      "State machines",
+      "Playback synchronization",
+    ],
     note:
-      "Early MVP. Each song's MPD stickers name its video and a start offset, which are currently set by hand.",
-    links: { github: "https://github.com/ryan-dfw/pvplayer" },
+        "WIP - A Rust companion to MPD that plays associated music videos through mpv while MPD handles audio. It reads video paths and timing offsets from MPD stickers, preloads upcoming videos, and schedules their playback around track transitions. It also follows MPD's pause and resume state. Video timing offsets are currently configured manually.",
+    links: {
+      github: "https://github.com/ryan-dfw/pvplayer",
+    },
     kind: "desktop",
     hue: 25,
   },
 
   // ─── WEB ─────────────────────────────────────────────────────────────
   {
+    id: "elm-aperture",
+    name: "Elm Aperture",
+    lane: "web",
+    purpose: "Photography portfolio and client-facing website.",
+    artifact: "Website",
+    ai: "assisted",
+    year: "’24–’26",
+    skills: [
+      "TypeScript/TSX",
+      "React",
+      "Vite",
+      "CSS",
+    ],
+    concepts: [
+      "Content-driven galleries",
+      "Client-side routing",
+      "Responsive image delivery",
+    ],
+    note:
+        "A rebuild of my photography website, with a content architecture that derives galleries and image selections from structured data. Includes custom client-side routing, responsive image sources, and URL-addressable lightboxes with browser history support. I designed the content architecture while Claude handled the visual design. The beta is replacing the current site and still contains unfinished content.",
+    links: {
+      github: "https://github.com/elm-aperture/elmapt",
+      live: "https://beta.elmapt.com",
+      extra: [
+        {
+          label: "elmapt.com (current)",
+          href: "https://elmapt.com",
+        },
+      ],
+    },
+    media: [
+      { landscape: "/shots/elmapt01.webp", portrait: "/shots/elmapt01-tall.webp", alt: "Home page with full-bleed portrait" },
+      { landscape: "/shots/elmapt02.webp", portrait: "/shots/elmapt02-tall.webp", alt: "Hotel & Hospitality gallery" },
+      { landscape: "/shots/elmapt03.webp", portrait: "/shots/elmapt03-tall.webp", alt: "Lifestyle Portraits gallery" },
+    ],
+    kind: "web",
+    hue: 40,
+  },
+  {
     id: "save-state-lyrics",
     name: "Save State Lyrics",
     lane: "web",
-    purpose: "Album lyrics with more control than standard lyrics platforms.",
+    purpose:
+        "Publishes official lyrics with artist-specific formatting, translations, and presentation.",
     artifact: "Website",
-    ai: "hand",
+    ai: "assisted",
     year: "’26",
-    skills: ["TypeScript/TSX", "Vite"],
-    concepts: ["Hierarchical data modeling", "Translation state", "Speaker-aware lyrics"],
+    skills: [
+      "TypeScript/TSX",
+      "React",
+      "React Router",
+      "Vite",
+    ],
+    concepts: [
+      "Hierarchical data modeling",
+    ],
+    note:
+        "A lyrics catalog for Save State Records, organized as artists, releases, and songs. Lyrics are stored as typed TypeScript data, preserving line-level formatting, speaker colors, and translations alongside the text. The site builds its catalog from these source files without a database or CMS. I implemented the application logic while Claude handled the CSS.",
     links: {
       github: "https://github.com/savestaterecords/save-state-lyrics",
       live: "https://lyr.savestate.fm",
     },
+    media: [
+      { landscape: "/shots/ssrlyrics01.webp", portrait: "/shots/ssrlyrics01-tall.webp", alt: "Home page with latest release and featured videos" },
+      { landscape: "/shots/ssrlyrics02.webp", portrait: "/shots/ssrlyrics02-tall.webp", alt: "Album view with lyrics" },
+      { landscape: "/shots/ssrlyrics03.webp", portrait: "/shots/ssrlyrics03-tall.webp", alt: "Album view showing credits" },
+    ],
     kind: "web",
     hue: 190,
   },
@@ -167,39 +257,33 @@ export const projects: Project[] = [
     id: "raincal",
     name: "raincal",
     lane: "web",
-    purpose: "Shares Google Calendar availability in compact day, week, month and year views.",
+    purpose:
+        "Visualizes Google Calendar availability across four timescales, from a single day to an entire year.",
     artifact: "Website",
     ai: "vibes",
     year: "’26",
-    skills: ["TypeScript/TSX", "Vite", "Google Calendar API", "Netlify"],
-    concepts: ["Responsive visualization", "Availability abstraction"],
+    skills: [
+      "TypeScript/TSX",
+      "React",
+      "Vite",
+      "Google Calendar API"
+    ],
+    concepts: [
+      "Data visualization",
+    ],
     note:
-      "Every view fits one screen, so one screenshot or link shares it. Shows free/busy only, never event details. My personal version is live; it may become a reusable template.",
+        "Transforms Google Calendar events into hourly availability data, visualized in day, week, month and year layouts. Each visualization fits within a single screen, including the entire year, making availability easy to inspect and share as a screenshot or link. Larger date ranges load progressively, and event details are omitted from the display.",
     links: {
       github: "https://github.com/ryan-dfw/calendar-webview",
       live: "https://rdfwcal.netlify.app",
     },
+    media: [
+      { landscape: "/shots/raincal01.webp", portrait: "/shots/raincal01-tall.webp", alt: "Week view" },
+      { landscape: "/shots/raincal02.webp", portrait: "/shots/raincal02-tall.webp", alt: "Month view" },
+      { landscape: "/shots/raincal03.webp", portrait: "/shots/raincal03-tall.webp", alt: "Year view" },
+    ],
     kind: "web",
     hue: 215,
-  },
-  {
-    id: "elm-aperture",
-    name: "Elm Aperture",
-    lane: "web",
-    purpose: "Photography portfolio.",
-    artifact: "Website",
-    ai: "assisted",
-    year: "’24–’26",
-    skills: ["TypeScript/TSX", "Vite"],
-    note:
-      "The beta is replacing elmapt.com. Some of its new sections are still placeholder text.",
-    links: {
-      github: "https://github.com/elm-aperture/elmapt",
-      live: "https://beta.elmapt.com",
-      extra: [{ label: "elmapt.com (current)", href: "https://elmapt.com" }],
-    },
-    kind: "web",
-    hue: 40,
   },
   {
     id: "portfolio",
@@ -209,8 +293,11 @@ export const projects: Project[] = [
     artifact: "Website",
     ai: "vibes",
     year: "’26",
-    skills: ["TypeScript/TSX", "Vite"],
-    links: {},
+    skills: ["TypeScript/TSX", "React", "Vite"],
+    links: {
+      github: "https://github.com/ryan-dfw/portfolio",
+      live: "https://rdfw.netlify.app/",
+    },
     kind: "web",
     hue: 230,
   },

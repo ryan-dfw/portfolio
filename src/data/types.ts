@@ -22,7 +22,10 @@ export type AiInvolvement = "hand" | "assisted" | "vibes";
 export type MediaKind = "phone" | "web" | "desktop";
 
 export type Media = {
-  /** Path under /public, e.g. "/shots/raincal-wide.webp". Leave out to show a placeholder. */
+  /**
+   * Full-size path under /public, e.g. "/shots/raincal01.webp". `npm run shots` makes it,
+   * plus the "_thumb" version shown on cards (raincal01_thumb.webp). Leave out for a placeholder.
+   */
   landscape?: string;
   portrait?: string;
   alt?: string;
@@ -61,7 +64,8 @@ export type Project = {
   };
 
   kind: MediaKind;
-  media?: Media;
+  /** Screenshots. The first is the card image; the rest join it in the open card's gallery. */
+  media?: Media[];
   /** Tint for the placeholder and the card's stage, 0–360. */
   hue: number;
 };

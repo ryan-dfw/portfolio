@@ -1,9 +1,14 @@
-import { useEffect, useRef } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactNode, Ref } from "react";
 import { aiLabels, lanes } from "../data/projects";
 import type { Project } from "../data/types";
 import { Chevron } from "./Lane";
-import { Shot } from "./Shot";
+import { framesFor, UPRIGHT } from "../data/frames";
+import { useMediaQuery } from "../hooks/useMediaQuery";
+import { Gallery } from "./Gallery";
+import type { GalleryHandle } from "./Gallery";
+import { Lightbox } from "./Lightbox";
+import type { Zoomed } from "./Lightbox";
 
 type Props = {
   project: Project | null;
@@ -20,20 +25,53 @@ const SWIPE = 60;
 export function Detail({ project, prev, next, index, count, onGo, onClose }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
+  const [zoomed, setZoomed] = useState<Zoomed | null>(null);
+  const gallery = useRef<GalleryHandle>(null);
+  const upright = useMediaQuery(UPRIGHT);
+  // set when ← carries over into the previous project, so it opens on its last screenshot
+  const [enteredBackward, setEnteredBackward] = useState(false);
 
-  // ←/→ step through the lane while open
+  if (!project && enteredBackward) setEnteredBackward(false);
+
+  const goProject = (target: Project, backward: boolean) => {
+    setEnteredBackward(backward);
+    onGo(target.id);
+  };
+
+  // a full-size view never outlives its project
+  const [zoomFor, setZoomFor] = useState(project?.id);
+  if (zoomFor !== project?.id) {
+    setZoomFor(project?.id);
+    setZoomed(null);
+  }
+
+  // ←/→ go through this project's screenshots first, then on to the neighbouring project.
+  // While a screenshot is full size, they step through full-size screenshots instead.
   useEffect(() => {
     if (!project) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.altKey || event.metaKey || event.ctrlKey) return;
-      const target = event.key === "ArrowLeft" ? prev : event.key === "ArrowRight" ? next : null;
-      if (!target) return;
+      const dir = event.key === "ArrowLeft" ? -1 : event.key === "ArrowRight" ? 1 : 0;
+      if (!dir) return;
       event.preventDefault();
-      onGo(target.id);
+
+      if (zoomed) {
+        const frames = framesFor(project, upright);
+        const at = frames.findIndex((f) => f.src === zoomed.src);
+        const to = frames[at + dir];
+        if (!to) return;
+        setZoomed({ src: to.src, alt: to.media.alt ?? `${project.name} screenshot` });
+        gallery.current?.goTo(at + dir);
+        return;
+      }
+
+      if (gallery.current?.step(dir)) return;
+      const target = dir < 0 ? prev : next;
+      if (target) goProject(target, dir < 0);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [project, prev, next, onGo]);
+  });
 
   // a new project starts at the top
   useEffect(() => {
@@ -61,75 +99,91 @@ export function Detail({ project, prev, next, index, count, onGo, onClose }: Pro
   }, [project]);
 
   return (
-    <dialog
-      ref={dialog}
-      className="detail"
-      tabIndex={-1}
-      aria-labelledby="detail-title"
-      onCancel={(event) => {
-        event.preventDefault();
-        onClose();
-      }}
-      onTouchStart={(event) => {
-        const t = event.touches[0];
-        touch.current = event.touches.length === 1 ? { x: t.clientX, y: t.clientY } : null;
-      }}
-      onTouchEnd={(event) => {
-        const start = touch.current;
-        touch.current = null;
-        if (!start) return;
-        const t = event.changedTouches[0];
-        const dx = t.clientX - start.x;
-        const dy = t.clientY - start.y;
-        if (Math.abs(dx) < SWIPE || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-        const target = dx < 0 ? next : prev;
-        if (target) onGo(target.id);
-      }}
-      onClick={(event) => {
-        // clicks on the backdrop land on the <dialog> itself
-        if (event.target === event.currentTarget) onClose();
-      }}
-    >
-      {project ? (
-        <Body key={project.id} project={project} onClose={onClose}>
-          <nav className="detail__nav" aria-label="Projects in this lane">
-            <button
-              type="button"
-              className="detail__step"
-              onClick={() => prev && onGo(prev.id)}
-              disabled={!prev}
-              aria-label={prev ? `Previous: ${prev.name}` : "No previous project"}
-            >
-              <Chevron dir="left" />
-              <span className="detail__step-name">{prev?.name}</span>
-            </button>
-            <span className="detail__pos">
-              {lanes.find((l) => l.id === project.lane)?.label} {index + 1}/{count}
-            </span>
-            <button
-              type="button"
-              className="detail__step detail__step--next"
-              onClick={() => next && onGo(next.id)}
-              disabled={!next}
-              aria-label={next ? `Next: ${next.name}` : "No next project"}
-            >
-              <span className="detail__step-name">{next?.name}</span>
-              <Chevron dir="right" />
-            </button>
-          </nav>
-        </Body>
-      ) : null}
-    </dialog>
+    <>
+      <dialog
+        ref={dialog}
+        className="detail"
+        tabIndex={-1}
+        aria-labelledby="detail-title"
+        onCancel={(event) => {
+          event.preventDefault();
+          onClose();
+        }}
+        onTouchStart={(event) => {
+          const t = event.touches[0];
+          touch.current = event.touches.length === 1 ? { x: t.clientX, y: t.clientY } : null;
+        }}
+        onTouchEnd={(event) => {
+          const start = touch.current;
+          touch.current = null;
+          if (!start) return;
+          const t = event.changedTouches[0];
+          const dx = t.clientX - start.x;
+          const dy = t.clientY - start.y;
+          if (Math.abs(dx) < SWIPE || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+          const target = dx < 0 ? next : prev;
+          if (target) goProject(target, false);
+        }}
+        onClick={(event) => {
+          // clicks on the backdrop land on the <dialog> itself
+          if (event.target === event.currentTarget) onClose();
+        }}
+      >
+        {project ? (
+          <Body
+            key={project.id}
+            project={project}
+            onClose={onClose}
+            onZoom={(src, alt) => setZoomed({ src, alt })}
+          gallery={gallery}
+          startAtEnd={enteredBackward}
+          >
+            <nav className="detail__nav" aria-label="Projects in this lane">
+              <button
+                type="button"
+                className="detail__step"
+                onClick={() => prev && goProject(prev, false)}
+                disabled={!prev}
+                aria-label={prev ? `Previous: ${prev.name}` : "No previous project"}
+              >
+                <Chevron dir="left" />
+                <span className="detail__step-name">{prev?.name}</span>
+              </button>
+              <span className="detail__pos">
+                {lanes.find((l) => l.id === project.lane)?.label} {index + 1}/{count}
+              </span>
+              <button
+                type="button"
+                className="detail__step detail__step--next"
+                onClick={() => next && goProject(next, false)}
+                disabled={!next}
+                aria-label={next ? `Next: ${next.name}` : "No next project"}
+              >
+                <span className="detail__step-name">{next?.name}</span>
+                <Chevron dir="right" />
+              </button>
+            </nav>
+          </Body>
+        ) : null}
+      </dialog>
+      <Lightbox image={zoomed} onClose={() => setZoomed(null)} />
+    </>
   );
 }
 
 function Body({
   project,
   onClose,
+  onZoom,
+  gallery,
+  startAtEnd,
   children,
 }: {
   project: Project;
   onClose: () => void;
+  onZoom: (src: string, alt: string) => void;
+  gallery: Ref<GalleryHandle>;
+  startAtEnd: boolean;
   children: ReactNode;
 }) {
   const { links } = project;
@@ -144,7 +198,7 @@ function Body({
       </button>
 
       <div className="detail__media">
-        <Shot project={project} size="detail" />
+        <Gallery ref={gallery} project={project} onZoom={onZoom} startAtEnd={startAtEnd} />
       </div>
 
       <div className="detail__info">

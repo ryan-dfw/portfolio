@@ -20,14 +20,25 @@ Each project's `id` is its URL hash, so `/#raincal` opens that card.
 
 ## Screenshots
 
-Put files in `public/shots/` and set `media` on the project:
+Name PNGs what they should be called (e.g. `steelwise01.png`), drop them into `public/png_in/`, then:
+
+```
+npm run shots
+```
+
+Each `name.png` becomes `public/shots/name.webp` (full size, opened when a screenshot is clicked) and `name_thumb.webp` (cards and gallery), and the PNG moves to `deleteme/shots/` (gitignored, safe to empty). Settings live at the top of `scripts/shots.mjs`; with `sharp` pinned to an exact version, the same PNG always gives the same files.
+
+List the full-size `.webp` in `media` on the project; the `_thumb` path is derived. The first one is the card image; with two or more, the open card gets a swipeable gallery.
 
 ```ts
-media: { landscape: "/shots/raincal-wide.webp", portrait: "/shots/raincal-tall.webp", alt: "Week view" }
+media: [
+  { landscape: "/shots/raincal01.webp", portrait: "/shots/raincal01-tall.webp", alt: "Week view" },
+  { landscape: "/shots/raincal02.webp", alt: "Year view" },
+],
 ```
 
 - `kind: "phone"` uses `portrait` inside a device frame.
-- `kind: "web"` uses `landscape` on wide screens and `portrait` (a mobile screenshot) at 640px and below.
+- `kind: "web"` uses `landscape` on wide screens and `portrait` (a mobile screenshot) at 640px and below; without a `portrait`, the landscape shot is letterboxed.
 - `kind: "desktop"` uses `landscape` only.
 
-Anything missing shows a placeholder of the right shape. `hue` tints the placeholder and stage.
+Screenshots sit inset on a stage tinted by the project's `hue`. Anything missing shows a placeholder of the right shape.
