@@ -1,6 +1,6 @@
 import { aiLabels } from "../data/projects";
 import type { Project } from "../data/types";
-import { framesFor, UPRIGHT } from "../data/frames";
+import { framesFor, layoutFor, UPRIGHT } from "../data/frames";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { Shot } from "./Shot";
 
@@ -8,7 +8,7 @@ export function Card({ project, onOpen }: { project: Project; onOpen: (id: strin
   const upright = useMediaQuery(UPRIGHT);
   const cover = framesFor(project, upright)[0];
   return (
-    <li className={`card card--${project.kind}`}>
+    <li className={`card card--${layoutFor(project, cover)}`}>
       <button
         type="button"
         className="card__button"

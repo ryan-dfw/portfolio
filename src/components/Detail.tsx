@@ -3,7 +3,7 @@ import type { ReactNode, Ref } from "react";
 import { aiLabels, lanes } from "../data/projects";
 import type { Project } from "../data/types";
 import { Chevron } from "./Lane";
-import { framesFor, UPRIGHT } from "../data/frames";
+import { framesFor, layoutFor, UPRIGHT } from "../data/frames";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { Gallery } from "./Gallery";
 import type { GalleryHandle } from "./Gallery";
@@ -186,11 +186,12 @@ function Body({
   startAtEnd: boolean;
   children: ReactNode;
 }) {
+  const upright = useMediaQuery(UPRIGHT);
   const { links } = project;
   const ai = aiLabels[project.ai];
 
   return (
-    <div className={`detail__body detail__body--${project.kind}`}>
+    <div className={`detail__body detail__body--${layoutFor(project, framesFor(project, upright)[0])}`}>
       <button type="button" className="detail__close" onClick={onClose} aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
           <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />

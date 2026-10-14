@@ -82,7 +82,7 @@
 }
 
 /* a portrait screenshot gets a taller stage */
-.shot--detail.shot--inset.shot--portrait {
+.shot--detail.shot--portrait {
   aspect-ratio: auto;
   height: min(64svh, 620px);
   max-height: none;
@@ -421,7 +421,7 @@ a.detail__link--primary:hover {
     max-height: none;
   }
 
-  .shot--detail.shot--inset.shot--portrait {
+  .shot--detail.shot--portrait {
     height: min(58svh, 520px);
   }
 

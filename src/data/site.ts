@@ -7,17 +7,14 @@ export type SiteLink = {
 
 export const site = {
   name: "Ryan McKevitt",
-  tagline: "lorem ipsum",
+  tagline: "Software developer · Photographer · Business owner",
   intro: [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+    "I build software, websites, and digital tools for clients and independent projects.\n\nMy background spans photography, audiovisual production, and small business operations, with experience taking projects from initial concept through development and delivery.",
   ].join("\n"),
   links: [
     { label: "GitHub", href: "https://github.com/ryan-dfw" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ryanmckevitt" },
-    { label: "Resume", href: "/resume.pdf", stub: "don't do that" },
+    { label: "Resume", href: "/Ryan_McKevitt_Resume.pdf"},
     { label: "Email", href: "mailto:mckevitt.r@gmail.com" },
   ] satisfies SiteLink[],
 };

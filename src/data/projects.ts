@@ -44,6 +44,12 @@ export const projects: Project[] = [
     note:
       "Users see nearby accounts by BLE broadcast, swiping right on accounts of interest. If interest is mutual, both users are notified. The app is purposefully lightweight and single-purpose: it stores nothing beyond what’s needed for authentication and a profile picture, and provides no messaging or other communication features. MVP built in about a month, tested with two iPhones.",
     links: { github: "private" },
+    media: [
+      { portrait: "/shots/nearvye01-tall.webp", alt: "Nearby guests" },
+      { portrait: "/shots/nearvye02-tall.webp", alt: "Match confirmation" },
+      { portrait: "/shots/nearvye03-tall.webp", alt: "Matches list" },
+      { landscape: "/shots/nearvye04.webp", alt: "The three screens side by side" },
+    ],
     kind: "phone",
     hue: 280,
   },
@@ -117,6 +123,29 @@ export const projects: Project[] = [
     kind: "web",
     hue: 345,
   },
+  {
+    id: "iav-podcast-circle",
+    name: "IAV Podcast Circle",
+    lane: "paid",
+    purpose: "Website for a podcast and personal-development community.",
+    artifact: "Website",
+    ai: "vibes",
+    year: "’26",
+    skills: ["TypeScript/TSX", "Vite", "React Router", "CSS Modules", "YouTube oEmbed", "Netlify"],
+    concepts: ["Requirements triage", "Content modeling", "Responsive editorial layout", "Accessibility"],
+    note:
+        "The client handed over an AI-generated spec naming Webflow, Stripe, Memberstack, Mailchimp, a login portal and a CMS, and published each episode as a standalone Canva page. I rebuilt her existing episode page natively from the live site, made episodes typed data rendered by one template, and built the six pages in her palette. I deliberately left out payments, accounts, the CMS and a newsletter provider until she decides what she actually needs; each has an integration point, and unconnected buttons are visibly marked as samples. Static site, no backend. Design draft awaiting client content.",
+    links: {
+      github: "https://github.com/ryan-dfw/iav-podcast-circle",
+      live: "https://iavbeta.netlify.app",
+    },
+    media: [
+      { landscape: "/shots/iav01.webp", portrait: "/shots/iav01-tall.webp", alt: "Home page with featured guests" },
+      { landscape: "/shots/iav02.webp", portrait: "/shots/iav02-tall.webp", alt: "Episode page" },
+    ],
+    kind: "web",
+    hue: 250,
+  },
 
   // ─── SOFTWARE ────────────────────────────────────────────────────────
   {
@@ -155,6 +184,11 @@ export const projects: Project[] = [
         },
       ],
     },
+    media: [
+      { portrait: "/shots/airis01-tall.webp", alt: "Camera screen waiting for a connection" },
+      { portrait: "/shots/airis02-tall.webp", alt: "Prints: grid of generated images" },
+      { portrait: "/shots/airis03-tall.webp", alt: "A single print with rating controls" },
+    ],
     kind: "phone",
     hue: 300,
   },
@@ -177,6 +211,7 @@ export const projects: Project[] = [
     links: {
       github: "https://github.com/ryan-dfw/pvplayer",
     },
+    media: [{ landscape: "/shots/pvplayer01.webp", alt: "Source: the playback loop and MPD client" }],
     kind: "desktop",
     hue: 25,
   },
@@ -298,6 +333,7 @@ export const projects: Project[] = [
       github: "https://github.com/ryan-dfw/portfolio",
       live: "https://rdfw.netlify.app/",
     },
+    media: [{ landscape: "/shots/portfolio01.webp", portrait: "/shots/portfolio01-tall.webp", alt: "This page" }],
     kind: "web",
     hue: 230,
   },
