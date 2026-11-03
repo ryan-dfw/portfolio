@@ -1,3 +1,5 @@
+import type { Lang } from "./langIcons";
+
 /** Lanes render in the order of the `lanes` array. A lane with no projects is hidden. */
 export type LaneId = "paid" | "software" | "web";
 
@@ -47,6 +49,8 @@ export type Project = {
   /** e.g. "iOS app", "Website", "Data pipeline + website" */
   artifact: string;
   ai: AiInvolvement;
+  /** Main language, shown as an icon on the card. Web apps built on React are "react". */
+  lang: Lang;
   /** Shown on the card, e.g. "’26" or "’24–’26". Omit if unknown. */
   year?: string;
 

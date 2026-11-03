@@ -38,6 +38,7 @@ export const projects: Project[] = [
     purpose: "Website for a podcast, a coaching practice, and its community.",
     artifact: "Website + gated resource",
     ai: "assisted",
+    lang: "react",
     year: "’26",
     skills: [
       "TypeScript/TSX",
@@ -77,6 +78,7 @@ export const projects: Project[] = [
     purpose: "Dating-type app for guests at the same event.",
     artifact: "iOS app",
     ai: "hand",
+    lang: "swift",
     year: "’25",
     skills: ["Swift", "BLE", "Firebase Realtime Database", "Firebase Storage", "Firebase Auth"],
     concepts: ["Proximity validation", "Mutual matching", "Data minimization"],
@@ -99,6 +101,7 @@ export const projects: Project[] = [
     purpose: "Buy and sell steel-industry leads.",
     artifact: "Data pipeline + website",
     ai: "assisted",
+    lang: "python",
     year: "’26",
     skills: [
       "Python",
@@ -132,6 +135,7 @@ export const projects: Project[] = [
     purpose: "Sells Paola's books and manages their fulfillment.",
     artifact: "Storefront + operations dashboard",
     ai: "vibes",
+    lang: "react",
     year: "’26",
     skills: [
       "TypeScript/TSX",
@@ -171,6 +175,7 @@ export const projects: Project[] = [
         "Hijacks a screenless camera's image output, replacing its photographs with AI-generated recreations.",
     artifact: "Android app",
     ai: "assisted",
+    lang: "kotlin",
     year: "’24–’26",
     skills: [
       "Kotlin",
@@ -214,6 +219,7 @@ export const projects: Project[] = [
     purpose: "Plays an album through MPD and shows each song's music video, muted and in sync.",
     artifact: "Desktop utility",
     ai: "hand",
+    lang: "rust",
     year: "’26",
     skills: ["Rust", "MPD", "mpv"],
     concepts: [
@@ -239,6 +245,7 @@ export const projects: Project[] = [
     purpose: "Photography portfolio and client-facing website.",
     artifact: "Website",
     ai: "assisted",
+    lang: "react",
     year: "’24–’26",
     skills: [
       "TypeScript/TSX",
@@ -279,6 +286,7 @@ export const projects: Project[] = [
         "Publishes official lyrics with artist-specific formatting, translations, and presentation.",
     artifact: "Website",
     ai: "assisted",
+    lang: "react",
     year: "’26",
     skills: [
       "TypeScript/TSX",
@@ -311,6 +319,7 @@ export const projects: Project[] = [
         "Visualizes Google Calendar availability across four timescales, from a single day to an entire year.",
     artifact: "Website",
     ai: "vibes",
+    lang: "react",
     year: "’26",
     skills: [
       "TypeScript/TSX",
@@ -342,6 +351,7 @@ export const projects: Project[] = [
     purpose: "Recursion is fun.",
     artifact: "Website",
     ai: "vibes",
+    lang: "react",
     year: "’26",
     skills: ["TypeScript/TSX", "React", "Vite"],
     links: {

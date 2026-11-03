@@ -36,6 +36,7 @@
   text-align: left;
   cursor: pointer;
   border-radius: var(--radius-lg);
+  position: relative;
 }
 
 .card__button:focus-visible {
@@ -72,6 +73,41 @@
   font-size: var(--text-xs);
   letter-spacing: 0.04em;
   color: var(--ink-faint);
+}
+
+.card__lang {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.card__lang svg {
+  width: 15px;
+  height: 15px;
+}
+
+@media (max-width: 640px) {
+  .card__lang {
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .card__lang svg {
+    width: 13px;
+    height: 13px;
+  }
 }
 
 /* ─── Shot ─────────────────────────────────────────────── */

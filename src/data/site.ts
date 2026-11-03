@@ -13,7 +13,7 @@ export const site = {
   links: [
     { label: "GitHub", href: "https://github.com/ryan-dfw" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ryanmckevitt" },
-    { label: "Resume", href: "/Ryan_McKevitt_Resume.pdf"},
+    { label: "Resume", href: "/RyanMcKevitt_Resume.pdf"},
     { label: "Email", href: "mailto:mckevitt.r@gmail.com" },
   ] satisfies SiteLink[],
 };

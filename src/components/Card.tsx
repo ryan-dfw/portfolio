@@ -1,4 +1,5 @@
 import { aiLabels } from "../data/projects";
+import { langIcons } from "../data/langIcons";
 import type { Project } from "../data/types";
 import { framesFor, layoutFor, UPRIGHT } from "../data/frames";
 import { useMediaQuery } from "../hooks/useMediaQuery";
@@ -7,6 +8,7 @@ import { Shot } from "./Shot";
 export function Card({ project, onOpen }: { project: Project; onOpen: (id: string) => void }) {
   const upright = useMediaQuery(UPRIGHT);
   const cover = framesFor(project, upright)[0];
+  const lang = langIcons[project.lang];
   return (
     <li className={`card card--${layoutFor(project, cover)}`}>
       <button
@@ -16,6 +18,11 @@ export function Card({ project, onOpen }: { project: Project; onOpen: (id: strin
         aria-haspopup="dialog"
       >
         <Shot project={project} frame={cover} />
+        <span className="card__lang" title={lang.label}>
+          <svg viewBox="0 0 24 24" role="img" aria-label={lang.label} fill={lang.color}>
+            <path d={lang.path} />
+          </svg>
+        </span>
         <span className="card__text">
           <span className="card__name">{project.name}</span>
           <span className="card__purpose">{project.purpose}</span>
