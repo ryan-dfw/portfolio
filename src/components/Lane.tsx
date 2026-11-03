@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import type { Lane as LaneType, Project } from "../data/types";
 import { Card } from "./Card";
@@ -33,10 +33,14 @@ export function Lane({
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = track.current;
     if (!el) return;
     measure();
+    // Icons take their first position without animating; transitions switch on after that.
+    let settle = requestAnimationFrame(() => {
+      settle = requestAnimationFrame(() => el.setAttribute("data-settled", ""));
+    });
     let queued = false;
     const onScroll = () => {
       if (queued) return;
@@ -50,6 +54,7 @@ export function Lane({
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => {
+      cancelAnimationFrame(settle);
       el.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };

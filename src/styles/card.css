@@ -91,7 +91,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .card__lang {
+  .lane__track[data-settled] .card__lang {
     transition: transform var(--dur-3) var(--ease);
   }
 }
