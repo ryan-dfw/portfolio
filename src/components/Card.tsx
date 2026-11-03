@@ -19,9 +19,19 @@ export function Card({ project, onOpen }: { project: Project; onOpen: (id: strin
       >
         <Shot project={project} frame={cover} />
         <span className="card__lang" title={lang.label}>
-          <svg viewBox="0 0 24 24" role="img" aria-label={lang.label} fill={lang.color}>
-            <path d={lang.path} />
-          </svg>
+          {"markup" in lang ? (
+            <svg
+              className={`card__lang-mark${lang.wide ? " card__lang-mark--wide" : ""}`}
+              viewBox={lang.viewBox}
+              role="img"
+              aria-label={lang.label}
+              dangerouslySetInnerHTML={{ __html: lang.markup }}
+            />
+          ) : (
+            <svg className="card__lang-mark" viewBox={lang.viewBox} role="img" aria-label={lang.label} fill={lang.color}>
+              <path d={lang.path} />
+            </svg>
+          )}
         </span>
         <span className="card__text">
           <span className="card__name">{project.name}</span>

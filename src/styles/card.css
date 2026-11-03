@@ -37,6 +37,7 @@
   cursor: pointer;
   border-radius: var(--radius-lg);
   position: relative;
+  container-type: inline-size;
 }
 
 .card__button:focus-visible {
@@ -77,36 +78,52 @@
 
 .card__lang {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 16px;
+  right: 16px;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--glass);
-  border: 1px solid var(--glass-edge);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  display: flex;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
 }
 
-.card__lang svg {
-  width: 15px;
-  height: 15px;
+/* Cut off by the lane's right edge: slide to the top-left corner (same inset). */
+.card[data-clipped-end] .card__lang {
+  transform: translateX(calc(32px + 100% - 100cqw));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card__lang {
+    transition: transform var(--dur-3) var(--ease);
+  }
+}
+
+.card__lang-mark {
+  width: 23px;
+  height: 23px;
+}
+
+.card__lang-mark--wide {
+  width: 32px;
+  height: 21px;
 }
 
 @media (max-width: 640px) {
   .card__lang {
-    top: 6px;
-    right: 6px;
-    width: 24px;
-    height: 24px;
+    top: 13px;
+    right: 13px;
   }
 
-  .card__lang svg {
-    width: 13px;
-    height: 13px;
+  .card[data-clipped-end] .card__lang {
+    transform: translateX(calc(26px + 100% - 100cqw));
+  }
+
+  .card__lang-mark {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card__lang-mark--wide {
+    width: 27px;
+    height: 18px;
   }
 }
 

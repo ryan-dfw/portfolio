@@ -101,7 +101,7 @@ export const projects: Project[] = [
     purpose: "Buy and sell steel-industry leads.",
     artifact: "Data pipeline + website",
     ai: "assisted",
-    lang: "python",
+    lang: "postgresql",
     year: "’26",
     skills: [
       "Python",

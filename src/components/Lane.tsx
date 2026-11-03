@@ -22,6 +22,15 @@ export function Lane({
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
     setEdges({ start: el.scrollLeft <= 2, end: el.scrollLeft >= max - 2 });
+
+    // A card cut off by the lane's right edge shows its language icon top-left instead.
+    const right = el.getBoundingClientRect().right;
+    for (const card of Array.from(el.children) as HTMLElement[]) {
+      const clipped = card.getBoundingClientRect().right > right + 1;
+      if (clipped !== card.hasAttribute("data-clipped-end")) {
+        card.toggleAttribute("data-clipped-end", clipped);
+      }
+    }
   }, []);
 
   useEffect(() => {
