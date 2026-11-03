@@ -32,6 +32,45 @@ export const aiLabels: Record<AiInvolvement, { label: string; meaning: string }>
 export const projects: Project[] = [
   // ─── PAID ────────────────────────────────────────────────────────────
   {
+    id: "iav-podcast-circle",
+    name: "IAV Circle",
+    lane: "paid",
+    purpose: "Website for a podcast, a coaching practice, and its community.",
+    artifact: "Website + gated resource",
+    ai: "assisted",
+    year: "’26",
+    skills: [
+      "TypeScript/TSX",
+      "Vite",
+      "React Router",
+      "CSS Modules",
+      "Netlify",
+      "Serverless functions",
+      "HMAC-SHA256",
+      "Resend API",
+      "zsh",
+    ],
+    concepts: [
+      "Requirements triage",
+      "Stateless signed access",
+      "Deliverability debugging",
+      "Verification over inference",
+    ],
+    note:
+        "A podcast and coaching site for an AI-forward client who briefs in canva-generated HTML; much of the work is parsing intended function and design from those into one coherent site. Her free seven-day journal is gated without accounts or a database: a function emails an HMAC-signed link whose signature alone authorizes the pages and the PDF, served from the function rather than the bundle. A 200 that reached no stranger turned out to be my API key in Netlify, not hers. Live and in beta.",
+    links: {
+      github: "https://github.com/ryan-dfw/iav-podcast-circle",
+      live: "https://iavcircle.com",
+    },
+    media: [
+      { landscape: "/shots/iav01.webp", portrait: "/shots/iav01-tall.webp", alt: "Home page" },
+      { landscape: "/shots/iav02.webp", portrait: "/shots/iav02-tall.webp", alt: "Articles index" },
+      { landscape: "/shots/iav03.webp", portrait: "/shots/iav03-tall.webp", alt: "Day one of the gated journal, with its writable lines" },
+    ],
+    kind: "web",
+    hue: 250,
+  },
+  {
     id: "nearvye",
     name: "Nearvye",
     lane: "paid",
@@ -123,30 +162,6 @@ export const projects: Project[] = [
     kind: "web",
     hue: 345,
   },
-  {
-    id: "iav-podcast-circle",
-    name: "IAV Podcast Circle",
-    lane: "paid",
-    purpose: "Website for a podcast and personal-development community.",
-    artifact: "Website",
-    ai: "vibes",
-    year: "’26",
-    skills: ["TypeScript/TSX", "Vite", "React Router", "CSS Modules", "YouTube oEmbed", "Netlify"],
-    concepts: ["Requirements triage", "Content modeling", "Responsive editorial layout", "Accessibility"],
-    note:
-        "The client handed over an AI-generated spec naming Webflow, Stripe, Memberstack, Mailchimp, a login portal and a CMS, and published each episode as a standalone Canva page. I rebuilt her existing episode page natively from the live site, made episodes typed data rendered by one template, and built the six pages in her palette. I deliberately left out payments, accounts, the CMS and a newsletter provider until she decides what she actually needs; each has an integration point, and unconnected buttons are visibly marked as samples. Static site, no backend. Design draft awaiting client content.",
-    links: {
-      github: "https://github.com/ryan-dfw/iav-podcast-circle",
-      live: "https://iavbeta.netlify.app",
-    },
-    media: [
-      { landscape: "/shots/iav01.webp", portrait: "/shots/iav01-tall.webp", alt: "Home page with featured guests" },
-      { landscape: "/shots/iav02.webp", portrait: "/shots/iav02-tall.webp", alt: "Episode page" },
-    ],
-    kind: "web",
-    hue: 250,
-  },
-
   // ─── SOFTWARE ────────────────────────────────────────────────────────
   {
     id: "airis",

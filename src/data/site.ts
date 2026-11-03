@@ -1,7 +1,6 @@
 export type SiteLink = {
   label: string;
   href: string;
-  /** Placeholder: clicking shows this message instead of following the link. */
   stub?: string;
 };
 
